@@ -1,0 +1,4 @@
+obj-y += modern.o #service.o image.o widget.o component.o
+
+#subdirs-$(CONFIG_SERVICES) += services
+subdirs-y += script

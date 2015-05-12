@@ -1,0 +1,71 @@
+#
+#  yummy/Makefile.in
+#
+#  Copyright (C) 2013-2015  Mateus de Lima Oliveira
+#
+
+UBUILD_MAJOR := 1
+UBUILD_MINOR := 0
+UBUILD_REVISION := 0
+UBUILD_VERSION := Ubuild $(UBUILD_MAJOR).$(UBUILD_MINOR).$(UBUILD_REVISION)
+
+export CC := @CC@
+export LD := @LD@
+export AR := @AR@
+
+export CFLAGS := @CFLAGS@
+export LDFLAGS := @LDFLAGS@
+
+# for config.h
+CFLAGS += -I.
+
+export LIBS := @LIBS@
+
+export top_srcdir := @top_srcdir@
+export top_builddir := @top_builddir@
+
+export build := @build@
+export host := @host@
+
+export EXEEXT := @EXEEXT@
+export OBJEXT := @OBJEXT@
+
+CFLAGS += -I$(top_srcdir) -I$(top_srcdir)/include
+MAKEFLAGS += --no-print-directory
+
+export host_os := @host_os@
+
+ifeq ($(filter $(host_os), mingw cygwin), $(host_os))
+export WINDRES := @WINDRES@
+export DLLTOOL := @DLLTOOL@
+export LIBEXT := .dll
+else
+export LIBEXT := .so
+endif
+
+export Q = @
+
+#c_flags := $(CFLAGS) -I$(obj)
+
+all: @PACKAGE_NAME@$(EXEEXT)
+
+init:
+	@echo @PACKAGE_NAME@ @PACKAGE_VERSION@
+	@echo $(UBUILD_VERSION)
+	@echo Build: $(build)
+	@echo Host: $(host)
+	@echo Loading...
+	$(Q)$(MAKE) -f $(top_srcdir)/Makefile.selfcaller all cur_dir=.
+
+@PACKAGE_NAME@$(EXEEXT): init .config $(top_builddir)/built-in.o
+	@echo Linking...
+	$(Q)$(CC) $(LDFLAGS) -o$@ $(top_builddir)/built-in.o $(ZLIB_LIBS) $(EXPAT_LIBS) $(LIBPNG_LIBS) $(LIBS) -lexpat #-lole32 -loleaut32 /lib/w32api/libuuid.a
+
+clean:
+	$(Q)$(MAKE) -f $(top_srcdir)/Makefile.selfcaller clean cur_dir=.
+	$(Q)$(RM) -f @PACKAGE_NAME@
+
+valgrind:
+	valgrind $(top_builddir)/@PACKAGE_NAME@$(EXEEXT)
+
+.PHONY: clean init

@@ -1,0 +1,2 @@
+obj-y += transverse.o gui.o menus.o tray.o main.o preferences.o comdlg.o
+comdlg_deps = -loleaut32

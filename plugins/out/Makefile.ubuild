@@ -1,0 +1,17 @@
+obj-$(CONFIG_OUT_NULL) += out_null.o
+
+# cross-platform libs
+obj-$(CONFIG_OUT_LIBAO) += out_libao.o
+out_libao_deps := $(AO_LIBS)
+obj-$(CONFIG_OUT_OPENAL) += out_openal.o
+out_openal_deps := $(OPENAL_LIBS)
+
+ifeq ($(build_os),mingw32)
+obj-$(CONFIG_OUT_WMM) += out_wmm.o
+out_wmm_deps := -lwinmm
+endif
+
+ifeq ($(build_os),gnu)
+obj-$(CONFIG_OUT_ALSA) += out_alsa.o
+out_alsa_deps := 
+endif

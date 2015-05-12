@@ -1,0 +1,6 @@
+obj-$(CONFIG_SERVICE_DUMMY) += dummy.o
+obj-$(CONFIG_SERVICE_APPLICATION) += application.o
+obj-$(CONFIG_SERVICE_CORE) += core.o
+obj-$(CONFIG_SERVICE_LANGUAGE) += language.o
+obj-$(CONFIG_SERVICE_ALBUMART) += albumart.o
+obj-$(CONFIG_SERVICE_PNG) += png.o

@@ -1,0 +1,2 @@
+obj-$(CONFIG_DSP_AVFILTER) += dsp_avfilter.o
+dsp_avfilter_deps := $(LIBAVFILTER_LIBS)

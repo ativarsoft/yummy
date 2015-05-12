@@ -1,0 +1,2 @@
+obj-$(CONFIG_IN_LIBAV) += in_libav.o
+in_libav_deps := $(LIBAVFORMAT_LIBS)

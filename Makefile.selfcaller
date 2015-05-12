@@ -1,0 +1,71 @@
+#
+#  yummy/Makefile.selfcaller
+#
+#  Copyright (C) 2013-2015  Mateus de Lima Oliveira
+#
+
+#real-objs-y := $(foreach a, $(filter-out $(subdir-obj-y), $(obj-y)))
+#real-objs-m := 
+#targets += $(real-objs-y) $(real-objs-m) $(lib-y)
+
+include $(top_builddir)/.config
+#$(warning $(top_srcdir)/$(cur_dir)/Makefile.ubuild)
+include $(if $(top_srcdir)/$(cur_dir)/Makefile.ubuild,$(top_srcdir)/$(cur_dir)/Makefile.ubuild,$(top_srcdir)/$(cur_dir)/Makefile)
+
+real-objs-y := $(addprefix $(top_builddir)/$(cur_dir)/, $(obj-y))
+real-objs-m := $(addprefix $(top_builddir)/$(cur_dir)/, $(obj-m))
+real-subdirs-y := $(addprefix $(top_builddir)/$(cur_dir)/, $(subdirs-y))
+real-subdir-objs-y := $(addsuffix /built-in.o, $(real-subdirs-y))
+modules := $(foreach a, $(obj-m), $(a:.o=$(LIBEXT)))
+modules := $(addprefix $(top_builddir)/, $(modules))
+
+-include $(real-objs-y:.o=.d) $(real-objs-m:.o=.d)
+
+c_flags := $(CFLAGS) -I$(cur_dir)
+
+coreutils_like_basename = $(notdir $(abspath $(1)))
+
+$(top_builddir)/$(cur_dir)/%.o: $(top_srcdir)/$(cur_dir)/%.c
+	@echo '  CC $@'
+	$(Q)$(CC) $(c_flags) -MD -c -o$@ $<
+
+$(top_builddir)/$(cur_dir)/%.o: $(top_srcdir)/$(cur_dir)/%.cpp
+	@echo '  C++ $@'
+	$(Q)$(CC) $(c_flags) -MD -c -o$@ $<
+
+$(top_builddir)/%$(LIBEXT): $(cur_dir)/%.o
+	@echo '  CC $@'
+	$(Q)$(CC) $(LDFLAGS) --shared -o$@ $< $($(call coreutils_like_basename, $(<:.o=_deps)))
+
+$(top_builddir)/$(cur_dir)/%.o: $(top_srcdir)/$(cur_dir)/%.rc
+	@echo '  WINDRES $@'
+	$(Q)$(WINDRES) -o$@ $<
+
+$(subdirs-y):
+#	@echo entering $@
+	$(Q)mkdir -p $(top_builddir)/$(cur_dir)/$@
+	$(Q)$(MAKE) -f $(top_srcdir)/Makefile.selfcaller all cur_dir=$(cur_dir)/$@
+#	@echo leaving $@
+
+define link_with_ld
+	@echo '  LD $(1)'
+	$(Q)$(LD) $(LDFLAGS) -r -o$(1) $(real-objs-y) $(real-subdir-objs-y)
+endef
+
+define link_with_ar
+	@echo '  AR $(1)'
+	$(Q)$(AR) rcs $(top_builddir)/$(1)
+endef
+
+$(top_builddir)/$(cur_dir)/built-in.o: $(real-objs-y) $(subdirs-y) #$(real-subdir-objs-y)
+	$(if $(strip $(real-objs-y) $(real-subdir-objs-y)), $(call link_with_ld,$@), $(call link_with_ar,$@))
+
+all: $(top_builddir)/$(cur_dir)/built-in.o $(real-objs-m) $(modules)
+
+clean:
+	@echo '  CLEAN $(patsubst $(top_srcdir)%, $(call coreutils_like_basename, $(top_srcdir))%, $(cur_dir))'
+#	@echo fake rm -f $(real-objs-y)
+	$(Q)rm -f $(real-objs-y) $(cur_dir)/built-in.o $(modules)
+	$(Q)for a in $(real-subdirs-y); do $(MAKE) -f $(top_srcdir)/Makefile.selfcaller clean cur_dir=$$a; done
+
+.PHONY: clean descend $(subdirs-y)

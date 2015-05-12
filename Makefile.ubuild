@@ -1,0 +1,4 @@
+subdirs-y += player plugins lib
+subdirs-$(CONFIG_CHEESE) += cheese
+
+#obj-y += yummy.o

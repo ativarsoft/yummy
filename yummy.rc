@@ -1,0 +1,109 @@
+/*
+ *  yummy/yummy.rc
+ *
+ *  Copyright (C) 2013-2015  Mateus de Lima Oliveira
+ */
+
+#include <windows.h>
+
+1 ICON yummy.ico
+
+/*CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "yummy.exe.manifest"*/
+
+1 VERSIONINFO
+FILEVERSION    1,0,0,0
+PRODUCTVERSION 3,0,0,0
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN
+		BLOCK "041604b0"
+		BEGIN
+			VALUE "CompanyName",      "" /* FIXME: */
+			VALUE "FileDescription",  "Media player"
+			VALUE "FileVersion",      "1.0"
+			VALUE "InternalName",     "yummy"
+			VALUE "LegalCopyright",   "\xa92013 Mateus de Lima Oliveira"
+			VALUE "OriginalFilename", "yummy.exe"
+			VALUE "ProductName",      "Yummy"
+			VALUE "ProductVersion",   "1.0"
+		END
+	END
+	
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x0416, 0x04b0 /*0x0416, 65001*/ /* pt-BR, utf-8 */
+	END
+END
+
+1 DIALOG 10, 10, 500, 200
+STYLE WS_POPUP | WS_BORDER
+CAPTION "Preferences"
+{
+	LTEXT "aadsfaf", 10, 10, 200, 100, 12
+}
+
+1 MENU
+{
+	POPUP "Main"
+	{
+		MENUITEM "About...",1
+		MENUITEM SEPARATOR
+		MENUITEM "Info...\tAlt+3", 2
+		MENUITEM SEPARATOR
+		MENUITEM "Main Window\tAlt+W", 3, CHECKED
+		MENUITEM "Equalizer\tAlt+G", 4, CHECKED
+		MENUITEM "Playlist\tAlt+E", 5, CHECKED
+		MENUITEM SEPARATOR
+		POPUP "Options"
+		{
+			MENUITEM "Preferences...\tCtrl+P", 1
+			POPUP "Skins"
+			{
+			}
+			MENUITEM SEPARATOR
+			MENUITEM "Time elapsed\tCtrl+T toggles", 2
+			MENUITEM "Time remaining\tCtrl+T toggles", 3
+			MENUITEM SEPARATOR
+			MENUITEM "Always On Top\tCtrl+A", 4
+			MENUITEM "Double Size\tCtrl+D", 5
+			MENUITEM "EasyMove\tCtrl+E", 6
+			MENUITEM SEPARATOR
+			MENUITEM "Repeat\tR", 7
+			MENUITEM "Shuffle\tS", 8
+		}
+		MENUITEM SEPARATOR
+		MENUITEM "Help\tF1", 6
+		MENUITEM SEPARATOR
+		MENUITEM "E&xit\tAlt+F4", 7
+	}
+
+	POPUP "Presets"
+	{
+		POPUP "Load"
+		{
+			MENUITEM "Preset...", 1
+			MENUITEM "Auto-load preset...", 2
+			MENUITEM "Default", 3
+			MENUITEM SEPARATOR
+			MENUITEM "From EQF...", 4
+		}
+		POPUP "Save"
+		{
+			MENUITEM "Preset...", 5
+			MENUITEM "Auto-load preset...", 6
+			MENUITEM "Default", 7
+			MENUITEM SEPARATOR
+			MENUITEM "To EQF...", 8
+		}
+		POPUP "Delete"
+		{
+			MENUITEM "Preset...", 9
+			MENUITEM "Auto-load preset...", 10
+		}
+	}
+
+	POPUP "Playlist"
+	{
+		MENUITEM "Play item", 1
+	}
+}

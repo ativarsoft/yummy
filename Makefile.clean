@@ -1,0 +1,14 @@
+include $(if $(obj)/Makefile.ubuild,$(obj)/Makefile.ubuild,$(obj)/Makefile)
+
+real-objs-y := $(addprefix $(obj)/, $(obj-y))
+real-subdirs-y := $(addprefix $(obj)/, $(subdirs-y))
+
+.PHONY: $(real-subdirs-y)
+$(real-subdirs-y):
+	@echo entering $@
+	$(Q)$(MAKE) -f Makefile.clean obj=$@
+
+.PHONY: clean
+clean: $(real-subdirs-y)
+	@echo CLEAN $(obj)
+	rm -f $(real-objs-y)

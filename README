@@ -1,0 +1,21 @@
+Yummy is yet another Winamp clone.
+It supports Winamp plugins, services, classic skins and modern skins.
+It does NOT depend on GTK+, Qt or any other toolkit.
+
+Compiling
+=========
+
+dependencies for building:
+gcc (the target MUST be 32-bit for compatibility with plugins)
+g++ (for OLE)
+pkg-config
+make
+libpng-dev (for modern skin engine)
+expat-dev (for modern skin engine)
+
+dependencies for runtime:
+libpng
+expat
+
+Create a '.config' file in the build directory. Copy a model with the same name
+from the source directory for default configuration.

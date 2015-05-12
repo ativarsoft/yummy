@@ -1,0 +1,9 @@
+ifeq ($(host_os),$(filter $(host_os),cygwin mingw32))
+subdirs-y += w32
+endif
+
+ifeq ($(host_os),linux)
+subdirs-y += linux
+endif
+
+obj-y += plugin.o playback.o classic.o discovery.o
