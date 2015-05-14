@@ -27,11 +27,11 @@ coreutils_like_basename = $(notdir $(abspath $(1)))
 
 $(top_builddir)/$(cur_dir)/%.o: $(top_srcdir)/$(cur_dir)/%.c
 	@echo '  CC $@'
-	$(Q)$(CC) $(c_flags) -MD -c -o$@ $<
+	$(Q)$(CC) $(c_flags) $($(call coreutils_like_basename, $(<:.c=_cflags))) -MD -c -o$@ $<
 
 $(top_builddir)/$(cur_dir)/%.o: $(top_srcdir)/$(cur_dir)/%.cpp
 	@echo '  C++ $@'
-	$(Q)$(CC) $(c_flags) -MD -c -o$@ $<
+	$(Q)$(CC) $(c_flags) $($(call coreutils_like_basename, $(<:.c=_cppflags))) -MD -c -o$@ $<
 
 $(top_builddir)/%$(LIBEXT): $(cur_dir)/%.o
 	@echo '  CC $@'
