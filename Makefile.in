@@ -35,7 +35,7 @@ MAKEFLAGS += --no-print-directory
 
 export host_os := @host_os@
 
-ifeq ($(filter $(host_os), mingw cygwin), $(host_os))
+ifeq ($(filter $(host_os), mingw32 cygwin), $(host_os))
 export WINDRES := @WINDRES@
 export DLLTOOL := @DLLTOOL@
 export LIBEXT := .dll
