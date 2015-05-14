@@ -1,6 +1,2 @@
-subdirs-$(CONFIG_IN)  += in
-subdirs-$(CONFIG_OUT) += out
-subdirs-$(CONFIG_DSP) += dsp
-subdirs-$(CONFIG_GEN) += gen
-subdirs-$(CONFIG_VIS) += vis
-subdirs-$(CONFIG_ENC) += enc
+subdirs-y  += winamp
+#subdirs-y += audacious
