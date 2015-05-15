@@ -15,11 +15,11 @@ struct out_plugin
 	/* out */ char *description;
 	/* out */ int id;
 	
-	/* in */ window_t window;
-	/* in */ library_t instance; /* TODO: port. */
+	/* in */ window window;
+	/* in */ library instance; /* TODO: port. */
 	
-	/* out */ void (*configure)(window_t parent);
-	/* out */ void (*about)(window_t parent);
+	/* out */ void (*configure)(window parent);
+	/* out */ void (*about)(window parent);
 	
 	/* out */ void (*init)();
 	/* out */ void (*quit)();

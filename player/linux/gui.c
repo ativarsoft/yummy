@@ -50,9 +50,9 @@ extern Atom wm_delete_window;
 /*extern Atom _net_wm_state;
 extern Atom _net_wm_state_hidden;*/
 
-static inline window_t gui_create_window(int x, int y, int w, int h, char *title)
+static inline window gui_create_window(int x, int y, int w, int h, char *title)
 {
-	window_t window;
+	window window;
 	Visual *visual;
 	XVisualInfo visual_info;
 	unsigned long attributes_mask;

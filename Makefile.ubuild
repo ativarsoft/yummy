@@ -1,4 +1,6 @@
 subdirs-y += player plugins lib
 subdirs-$(CONFIG_CHEESE) += cheese
 
+ifeq ($(filter $(host_os), mingw32 cygwin), $(host_os))
 obj-y += yummy.o
+endif

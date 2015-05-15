@@ -10,18 +10,26 @@ gcc (the target MUST be 32-bit for compatibility with plugins)
 g++ (for OLE)
 pkg-config
 make
-libpng-dev (for modern skin engine)
-expat-dev (for modern skin engine)
+libpng-dev, expat-dev (for modern skin engine)
+libx11-dev, libxext-dev (for GNU/Linux only)
 
-dependencies for runtime:
-libpng
-expat
+optional dependencies:
+libavcodec-dev, libavformat-dev (for in_libav plugin)
+libavfilter-dev (for dsp_avfilter plugin)
+libao-dev (for out_ao plugin)
 
 Create a '.config' file in the build directory. Copy a model with the same name
 from the source directory for default configuration.
 
+Hacking
+=======
+
+* cheese: compatibility layer for winamp services.
+* player: GUI and main entry point.
+* plugins: components to be loaded dynamically on load time.
+
 Ubuild
-======
+------
 
 Yummy uses its own build system called Ubuild. It was inspired by the
 Kbuild system used to build the Linux kernel.

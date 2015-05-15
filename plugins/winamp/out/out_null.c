@@ -8,12 +8,12 @@
 #include <module.h>
 #include <msgbox.h>
 
-void configure(window_t parent)
+void configure(window parent)
 {
 	info(parent, "No configuration.");
 }
 
-void about(window_t parent)
+void about(window parent)
 {
 	info(parent, "Copyright 2013 Mateus de Lima Oliveira\n\n"
 		"Null plugin. This is a test plugin that outputs no sound.");

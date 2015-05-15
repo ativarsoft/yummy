@@ -19,7 +19,7 @@
 #include "discovery.h"
 #include "gui.h"
 
-struct in_plugin * load_in_plugin(library_t lib)
+struct in_plugin * load_in_plugin(library lib)
 {
 	struct in_plugin *in;
 	struct in_plugin * (*get_in_module)();
@@ -51,7 +51,7 @@ struct in_plugin * load_in_plugin(library_t lib)
 	return in;
 }
 
-struct out_plugin * load_out_plugin(library_t lib)
+struct out_plugin * load_out_plugin(library lib)
 {
 	struct out_plugin *out;
 	struct out_plugin * (*get_out_module)();
@@ -74,7 +74,7 @@ struct out_plugin * load_out_plugin(library_t lib)
 	return out;
 }
 
-struct gen_plugin * load_gen_plugin(library_t lib)
+struct gen_plugin * load_gen_plugin(library lib)
 {
 	struct gen_plugin *gen;
 	struct gen_plugin * (*get_gen_module)();
@@ -94,7 +94,7 @@ struct gen_plugin * load_gen_plugin(library_t lib)
 	return gen;
 }
 
-struct dsp_plugin_module * load_dsp_plugin(library_t lib)
+struct dsp_plugin_module * load_dsp_plugin(library lib)
 {
 	struct dsp_plugin_header *dsp_header;
 	struct dsp_plugin_module *dsp_module;
@@ -114,7 +114,7 @@ struct dsp_plugin_module * load_dsp_plugin(library_t lib)
 	return dsp_module;
 }
 
-struct vis_plugin_module * load_vis_plugin(library_t lib)
+struct vis_plugin_module * load_vis_plugin(library lib)
 {
 	struct vis_plugin_header *vis_header;
 	struct vis_plugin_module *vis_module;

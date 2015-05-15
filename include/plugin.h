@@ -13,10 +13,10 @@
 #include <out.h>
 #include <vis.h>
 
-struct in_plugin * load_in_plugin(library_t lib);
-struct out_plugin * load_out_plugin(library_t lib);
-struct gen_plugin * load_gen_plugin(library_t lib);
-struct dsp_plugin_module * load_dsp_plugin(library_t lib);
-struct vis_plugin_module * load_vis_plugin(library_t lib);
+struct in_plugin * load_in_plugin(library lib);
+struct out_plugin * load_out_plugin(library lib);
+struct gen_plugin * load_gen_plugin(library lib);
+struct dsp_plugin_module * load_dsp_plugin(library lib);
+struct vis_plugin_module * load_vis_plugin(library lib);
 
 #endif

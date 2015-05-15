@@ -2,7 +2,7 @@ ifeq ($(host_os),$(filter $(host_os),cygwin mingw32))
 subdirs-y += w32
 endif
 
-ifeq ($(host_os),linux)
+ifeq ($(host_os),linux-gnu)
 subdirs-y += linux
 endif
 

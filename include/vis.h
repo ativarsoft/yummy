@@ -12,8 +12,8 @@
 struct vis_plugin_module
 {
 	char *description;
-	window_t main_window;
-	library_t dll_instance;
+	window main_window;
+	library dll_instance;
 	
 	int rate;
 	int channels;

@@ -17,7 +17,7 @@
 /* The functions refer to this struct,
  * but this struct also refers to the functions
  * by holding pointers. */
-extern struct in_plugin_s in;
+extern struct in_plugin in;
 
 AVFormatContext *format_context = 0;
 AVCodecContext *codec_context;
@@ -26,13 +26,13 @@ AVCodec *codec;
 bool _is_paused = 0;
 
 /* TODO: skip for now. */
-void configure(window_t parent)
+void configure(window parent)
 {
 	DEBUG_TRACE();
 }
 
 /* TODO: skip for now. */
-void about(window_t parent)
+void about(window parent)
 {
 	DEBUG_TRACE();
 	
@@ -112,7 +112,7 @@ void get_file_info(const char *path, char *formated_title, int *len)
 }
 
 /* TODO: skip for now. */
-int info_box(const char *file, window_t parent)
+int info_box(const char *file, window parent)
 {
 	DEBUG_TRACE();
 }
@@ -300,7 +300,7 @@ void eq_set(int a, char b[10], int c)
 }
 
 
-struct in_plugin_s in = {
+struct in_plugin in = {
 	.version = 0x100,
 	.description = "libav",
 	.file_ext = 0, /* NOTE: generated at runtime. */
@@ -331,13 +331,9 @@ void in_libav()
 	/*register_in_plugin(&in);*/
 }
 
-/* TODO: i dont care if winamp can read yummy plugins.
- * wipe this off. */
- #ifdef _WIN32
-struct in_plugin_s * __declspec(dllexport) winampGetInModule2()
+struct in_plugin * DLLEXPORT winampGetInModule2()
 {
 	return &in;
 }
-#endif
 
 EXPORT(in_libav);

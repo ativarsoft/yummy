@@ -19,7 +19,7 @@ struct plugin_list_entry {
 		struct dsp_plugin_module *dsp;
 		struct vis_plugin_module *vis;
 	};
-	library_t lib; /* if it is zero then it is unloaded. */
+	library lib; /* if it is zero then it is unloaded. */
 
 	/* the name will be shown on the preferences tab. */
 	char *name;

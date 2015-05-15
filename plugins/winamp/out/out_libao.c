@@ -1,9 +1,13 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include <out.h>
-#include <ao/ao.h>
 #include <module.h>
 #include <debug.h>
 #include <msgbox.h>
-#include <stdlib.h>
+#include <platform.h>
+
+#include <ao/ao.h>
 
 static int driver_id;
 static ao_device *device;
@@ -26,12 +30,12 @@ static int _is_playing;
 
 static char *_buffer;
 
-void configure(window_t parent)
+void configure(window parent)
 {
 	DEBUG_TRACE();
 }
 
-void about(window_t parent)
+void about(window parent)
 {
 	DEBUG_TRACE();
 	
@@ -157,7 +161,7 @@ int get_written_time()
 	return 1001;
 }
 
-struct out_plugin_s out = {
+struct out_plugin out = {
 	.version = 0x10,
 	.description = "Xiph.Org's libao",
 	.id = 0,
@@ -184,10 +188,7 @@ static void out_libao_init()
 
 EXPORT(out_libao_init);
 
-/* FIXME: remove. */
-#ifdef _WIN32
-struct out_plugin_s * __declspec(dllexport) winampGetOutModule()
+struct out_plugin * DLLEXPORT winampGetOutModule()
 {
 	return &out;
 }
-#endif

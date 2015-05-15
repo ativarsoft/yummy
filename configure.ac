@@ -19,7 +19,7 @@ AC_CHECK_TOOL([DLLTOOL], [dlltool], AC_MSG_ERROR("dlltool was not found"))
 AC_CANONICAL_BUILD
 AC_CANONICAL_HOST
 
-LIBS+='-lgdi32 -lcomctl32 -lpng'
+LIBS+=''
 
 # autoconf does not detect stdcall
 #AC_CHECK_LIB([kernel32], [HeapAlloc])

@@ -12,8 +12,8 @@
 struct dsp_plugin_module
 {
 	char *description;
-	window_t main_window;
-	library_t dll_instance;
+	window main_window;
+	library dll_instance;
 	
 	void (*configure)(struct dsp_plugin_module *this);
 	int (*init)(struct dsp_plugin_module *this);

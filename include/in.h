@@ -14,17 +14,17 @@ struct in_plugin
 {
 	/* out */ int version;
 	/* out */ char *description;
-	/* in */ window_t window;
-	/* in */ library_t instance; /* TODO: port. */
+	/* in */ window window;
+	/* in */ library instance; /* TODO: port. */
 	/* out */ char *file_ext;
 	/* out */ int is_seekable;
 	/* out */ int flags;
-	/* out */ void (*configure)(window_t parent);
-	/* out */ void (*about)(window_t parent);
+	/* out */ void (*configure)(window parent);
+	/* out */ void (*about)(window parent);
 	/* out */ void (*init)();
 	/* out */ void (*quit)();
 	/* out */ void (*get_file_info)(const char *path, char *formated_title, int *len);
-	/* out */ int (*info_box)(const char *file, window_t parent);
+	/* out */ int (*info_box)(const char *file, window parent);
 	/* out */ int (*is_our_file)(const char *path);
 	/* out */ int (*play)(const char *file);
 	/* out */ void (*pause)();

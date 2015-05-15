@@ -16,8 +16,8 @@ struct gen_plugin
 	int (*init)();
 	void (*configure)();
 	void (*quit)();
-	window_t window;
-	library_t dll_instance;
+	window window;
+	library dll_instance;
 };
 
 #endif

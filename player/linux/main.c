@@ -14,12 +14,12 @@
 #include "configurations.h"
 #include "error.h"
 
-/* FIXME: */
 #include <platform.h>
 #include <cheese/script.h>
-window_t main_window_hwnd;
 
-struct arguments_s
+window main_window;
+
+struct arguments
 {
 	char *filename;
 };
@@ -31,9 +31,9 @@ static struct argp_option options[] =
 
 static error_t parse_opt(int key, char *arg, struct argp_state *state)
 {
-	struct arguments_s *arguments;
+	struct arguments *arguments;
 	
-	arguments=state->input;
+	arguments = state->input;
 	
 	switch(key) {
 		case ARGP_KEY_ARG:
@@ -57,7 +57,7 @@ static struct argp argp = {options, parse_opt, 0, doc};
 
 int main(int argc, char **argv)
 {
-	struct script_s *script;
+	struct script *script;
 #if 0
 	struct arguments_s arguments;
 	
