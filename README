@@ -28,6 +28,32 @@ Hacking
 * player: GUI and main entry point.
 * plugins: components to be loaded dynamically on load time.
 
+Managing Dependencies and Portability
+-------------------------------------
+
+The build system uses autotools to detect the toolchain configurations
+and dependencies. To change them, use the configure.ac file.
+Try not to touch Makefile.in and Ubuild files to make it usable in other
+projects.
+
+Type the following commands to create a configure script. autotools and
+automake are necessary.
+
+autoconf -vfi
+automake --add-missing
+
+Even though the build system does NOT use automake at all, it is necessary
+to create auxiliary files that autoconf deems to be necessary. Otherwise
+you will have to install them manually. Those files are: install-sh,
+config.sub and config.guess. They are placed in the build-aux directory.
+
+Tips
+----
+
+* When creating conditionals in configure.ac, use 'test' instead of '['
+because it conflicts with the M4 macro processor.
+* autoconf's AC_CHECK_LIB does not detect stdcall.
+
 Ubuild
 ------
 

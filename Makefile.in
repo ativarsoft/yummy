@@ -39,11 +39,8 @@ ifeq ($(filter $(host_os), mingw32 cygwin), $(host_os))
 export WINDRES := @WINDRES@
 export DLLTOOL := @DLLTOOL@
 export LIBEXT := .dll
-LIBS += -lgdi32 -lcomctl32
-#LIBS += -lole32 -loleaut32 /lib/w32api/libuuid.a
 else
 export LIBEXT := .so
-CFLAGS += -fPIC
 endif
 
 export Q = @
