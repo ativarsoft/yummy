@@ -6,4 +6,4 @@ ifeq ($(host_os),linux-gnu)
 subdirs-y += linux
 endif
 
-obj-y += plugin.o playback.o classic.o discovery.o
+obj-y += plugin.o playback.o classic.o discovery.o init.o

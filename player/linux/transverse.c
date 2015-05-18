@@ -6,6 +6,7 @@
 
 #include <sys/types.h>
 #include <dirent.h>
+#include <string.h>
 
 #define PREFIX_IN  0x1
 #define PREFIX_OUT 0x2
@@ -16,7 +17,7 @@
 
 #define SUFFIX
 
-void discovery()
+void transverse_dir(char *path, void (*callback)(char *path, char *filename))
 {
 	DIR *dir;
 	struct dirent *ent;
@@ -32,11 +33,13 @@ void discovery()
 	char suffix[] = ".so";
 	
 	dir = opendir("plugins");
-	do {
+	for (;;) {
 		ent = readdir(dir);
+		if (ent == NULL)
+			break;
 		puts(ent->d_name);
 		name_len = strlen(ent->d_name);
-		strncmp();
-	} while (ent);
+		/*strncmp();*/
+	}
 	(void) closedir(dir);
 }

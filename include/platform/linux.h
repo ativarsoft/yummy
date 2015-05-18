@@ -21,6 +21,19 @@ typedef Pixmap pixmap;
 typedef void * cursor;
 typedef void * menu;
 
+extern Display *display;
+extern int screen;
+extern Window root;
+extern int black;
+extern int white;
+
+/*#define _NET_WM_STATE_ADD 1
+#define _NET_WM_STATE_TOGGLE 2*/
+
+extern Atom wm_delete_window;
+/*extern Atom _net_wm_state;
+extern Atom _net_wm_state_hidden;*/
+
 static inline library load_library(const char *path)
 {
 	return dlopen(path, RTLD_LAZY);

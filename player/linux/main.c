@@ -13,11 +13,7 @@
 #include <gui.h>
 #include "configurations.h"
 #include "error.h"
-
-#include <platform.h>
-#include <cheese/script.h>
-
-window main_window;
+#include "../init.h"
 
 struct arguments
 {
@@ -63,21 +59,7 @@ int main(int argc, char **argv)
 	
 	argp_parse(&argp, argc, argv, 0, 0, &arguments);
 #endif
-	/*expand_argv(argc, argv);*/
-	/*load_config("Winamp.ini");
-	discovery_init();*/
-	/* FIXME: path may not end in '/'. */
-	/* NOTE: tray needs gui init to get the display. */
-	gui_init();
-	/*modern_skin("skins/Winamp Modern/");
-	gui_enter_loop();*/
-	/*script = script_load("about/about.maki");
-	if (!script)
-		return 1;
-	script_disasm(script);
-	script_unload(script);*/
-	tray_init();
-	gui_quit();
+	player_init();
 	
 	return 0;
 }

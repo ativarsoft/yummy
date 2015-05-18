@@ -1,1 +1,1 @@
-obj-y += main.o
+obj-y += main.o menus.o transverse.o gui_x11.o tray.o

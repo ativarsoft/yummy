@@ -8,7 +8,7 @@
 #include "menus.h"
 #include "gui.h"
 
-HMENU menu_root;
+menu menu_root;
 
 menu menu_main;
 menu menu_presets;

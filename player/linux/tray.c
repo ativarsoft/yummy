@@ -5,6 +5,9 @@
  */
 
 #include <X11/Xlib.h>
+#include <string.h>
+
+#include <platform.h>
 #include <gui.h>
 
 #define SYSTEM_TRAY_REQUEST_DOCK 0
@@ -22,6 +25,8 @@ void tray_init()
 	systray = XGetSelectionOwner(display, tray_atom);
 	if (!systray)
 		return;
+
+	/*icon = gui->create_window();*/
 	
 	memset(&event, 0, sizeof(event));
 	event.xclient.type = ClientMessage;
@@ -32,6 +37,6 @@ void tray_init()
 	event.xclient.data.l[1] = SYSTEM_TRAY_REQUEST_DOCK;
 	event.xclient.data.l[2] = icon;
 	
-	XSendEvent(display, systray, False, NoEventMask, False);
+	/*XSendEvent(display, systray, False, NoEventMask, False);*/
 	XSync(display, False);
 }

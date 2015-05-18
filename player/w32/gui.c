@@ -103,7 +103,7 @@ static LRESULT CALLBACK callback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-static void gui_init(void)
+static void init(void)
 {
 	WNDCLASS class;
 #if 0
@@ -138,7 +138,7 @@ static void gui_init(void)
 	bmp_dc = CreateCompatibleDC(NULL);
 }
 
-static void gui_quit(void)
+static void quit(void)
 {
 	DeleteDC(mem_dc);
 	DeleteDC(bmp_dc);
@@ -146,7 +146,7 @@ static void gui_quit(void)
 	UnregisterClass(class_name, NULL);
 }
 
-static window_t gui_create_window(int x, int y, int w, int h, char *title, const struct skin_callbacks *handler)
+static window_t create_window(int x, int y, int w, int h, char *title, const struct skin_callbacks *handler)
 {
 	HWND hwnd;
 
@@ -385,10 +385,10 @@ static void open_dir_dialog(void)
 }
 
 struct gui gui_w32 = {
-	.init = &gui_init,
-	.quit = &gui_quit,
+	.init = &init,
+	.quit = &quit,
 
-	.create_window = &gui_create_window,
+	.create_window = &create_window,
 	.destroy_window = &destroy_window,
 	.event_handler = &event_handler,
 	.show_window = &show_window,
