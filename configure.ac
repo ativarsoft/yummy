@@ -56,8 +56,9 @@ LIBS="$LIBS -lgdi32 -lcomctl32"
 fi
 if test "$host_os" == 'linux' || test "$host_os" == 'linux-gnu'
 then
-CFLAGS="$LIBS -fPIC"
-LIBS="$LIBS -ldl"
+PKG_CHECK_MODULES([X11], [x11])
+CFLAGS="$CFLAGS -fPIC"
+LIBS="$LIBS -ldl $X11_LIBS"
 fi
 
 AC_OUTPUT
