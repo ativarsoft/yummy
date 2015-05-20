@@ -1,0 +1,32 @@
+Tips
+====
+
+* When creating conditionals in configure.ac, use 'test' instead of '['
+because it conflicts with the M4 macro processor.
+* autoconf's AC_CHECK_LIB does not detect stdcall.
+* XCreatePixmapFromBitmapData and similar functions that deal with bitmaps, actually deal with XBM (monochrome) bitmaps. Do not try to load RGB bitmaps with them.
+
+Ubuild
+======
+
+Yummy uses its own build system called Ubuild. It was inspired by the
+Kbuild system used to build the Linux kernel.
+
+To compile one or more files, create a file called 'Makefile.ubuild'.
+The language used is the same used in Makefile files. Then use the
+following variables.
+
+obj-y (specifies the source files to link in the final program)
+obj-m (specifies the source files to build as separate modules)
+xxx_cflags and xxx_cppflags (flags to build the xxx file)
+xxx_deps (specifies additional arguments at link time such as libraries)
+subdirs-y (specifies subdirectories to be built)
+
+Here is one example of how to build and link a file to the final program.
+
+obj-y += test.o
+
+You can create a variable in the '.config' file to control weather a set
+of files will be build by defining a variable like in this example.
+
+obj-$(MY_VAR) += test.o
