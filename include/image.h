@@ -8,14 +8,29 @@
 #define IMAGE_H
 
 #include <stdint.h>
+#include <vfs.h>
 
-struct load_image_s {
+/*
+ * TODO: this structure holds a buffered file.
+ * Update it to use ops instead.
+ */
+struct load_image {
 	void *data;
 	int length;
 	int *w;
 	int *h;
 };
 
-uint32_t * load_image(struct load_image_s *args);
+/*
+ * Representation of an image in memory to be read by the gui engine.
+ * The gui engine creates a pixmap.
+ */
+struct image {
+	int width, height, bpp;
+	char *pixels;
+};
+
+int load_bmp(struct vfs_ops *ops, const char *path, struct image *out);
+
 
 #endif

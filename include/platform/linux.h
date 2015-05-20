@@ -15,11 +15,11 @@
 #define GetLastError() 0 /* FIXME: remove. */
 #define DLLEXPORT /* All symbols are exported by default in Linux. */
 
-typedef int window;
-typedef void * library;
+typedef Window window;
 typedef Pixmap pixmap;
 typedef void * cursor;
 typedef void * menu;
+typedef void * library;
 
 extern Display *display;
 extern int screen;

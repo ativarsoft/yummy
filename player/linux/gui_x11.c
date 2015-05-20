@@ -6,10 +6,13 @@
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xatom.h> /* for XA_STRING */
 #include <string.h>
 
 #include <platform.h>
 #include <gui.h>
+#include <image.h>
+#include <vfs.h>
 
 struct list_container_s *list_container;
 
@@ -50,30 +53,30 @@ static window create_window(int x, int y, int w, int h, char *title, const struc
 	XVisualInfo visual_info;
 	unsigned long attributes_mask;
 	XSetWindowAttributes attributes;
+	Atom skin_callbacks_atom;
+	const int bpp = 32;
 	
-	XMatchVisualInfo(display, screen, 32, TrueColor, &visual_info);
+	XMatchVisualInfo(display, screen, bpp, TrueColor, &visual_info);
 	visual = visual_info.visual;
 	
 	attributes_mask = CWBackPixel | CWColormap | CWBorderPixel;
 	attributes.colormap = XCreateColormap(display, root, visual, AllocNone);
-	attributes.background_pixel = 0;
-	attributes.border_pixel = 0;
-	
-	black = BlackPixel(display, screen);
-	white = WhitePixel(display, screen);
-	
+	attributes.background_pixel = 0xff000000;
+	attributes.border_pixel = 0xffffffff;
 	/*window = XCreateSimpleWindow(display, root, x, y, w, h, 1, black, white);*/
-	window = XCreateWindow(display, root, x, y, w, h, 0, 32, InputOutput, visual, attributes_mask, &attributes);
+	window = XCreateWindow(display, root, x, y, w, h, 0, bpp, InputOutput, visual, attributes_mask, &attributes);
 	if (!window)
 		;
+
 	XSetStandardProperties(display, window, title, title, 0, 0, 0, 0);
 	XSelectInput(display, window, ButtonPressMask | ExposureMask | StructureNotifyMask);
 	XSetWMProtocols(display, window, &wm_delete_window, 1);
-	/*if (visible)*/
-		XMapWindow(display, window);
-#ifdef DEBUG
+
+	/* Associate the skin information with the window. */
+	skin_callbacks_atom = XInternAtom(display, "skin_callbacks", False);
+	/* We want to store a pointer. So pass a pointer to the poiter. */
+	XChangeProperty(display, window, skin_callbacks_atom, XA_STRING, 8, PropModeReplace, (const unsigned char *) &callbacks, sizeof(struct skin_callbacks *));
 	XSync(display, False);
-#endif
 	
 	return window;
 }
@@ -83,14 +86,47 @@ static void destroy_window(window w)
 	XDestroyWindow(display, w);
 }
 
+static void window_expose(XEvent *event)
+{
+	struct skin_callbacks **callbacks;
+	Atom skin_callbacks_atom;
+	Atom actual_type;
+	int actual_format;
+	unsigned long nitems, bytes_after;
+	int r;
+
+	puts(__FUNCTION__);
+	skin_callbacks_atom = XInternAtom(display, "skin_callbacks", True);
+	r = XGetWindowProperty(display, event->xclient.window, skin_callbacks_atom, 0, sizeof(struct skin_callbacks *), False, AnyPropertyType, &actual_type, &actual_format, &nitems, &bytes_after, (unsigned char **) &callbacks);
+	if (r != Success) {
+		fprintf(stderr, "ERROR: error getting window property.\n");
+		return;
+	}
+	(*callbacks)->draw();
+	XFree(callbacks);
+	XFlush(display);
+#if 0
+	struct list_container *container;
+	struct list_layer *layer;
+	for (container = list_container; container; container = container->next) {
+		if (container->window = event.xany.window)
+			for (layer = container->layer; layer; layer = layer->next) {
+				gc = XCreateGC(display, event.xany.window, 0, &gc_values);
+				XSetBackground(display, gc, white);
+				XSetForeground(display, gc, 0xff);
+				XCopyPlane(display, layer->pixmap, event.xany.window, gc, 0, 0, layer->w, layer->h, 0, 0, 1);
+				XSetForeground(display, gc, 0xff00);
+				/*XCopyPlane(display, layer->pixmap, event.xany.window, gc, 0, 0, layer->w, layer->h, 0, 0, 2);*/
+				XCopyArea(display, layer->pixmap, event.xany.window, gc, 0, 0, layer->w, layer->h, 0, 0);
+			}
+	}
+#endif
+}
+
 static void event_handler(void)
 {
 	XEvent event;
-	GC gc;
-	XGCValues gc_values;
-	struct list_container *container;
-	struct list_layer *layer;
-	
+
 	for (;;) {
 		XNextEvent(display, &event);
 		switch (event.type) {
@@ -101,21 +137,9 @@ static void event_handler(void)
 			}
 			break;
 			case MapNotify:
+			/*case GraphicsExpose:*/ /* This will crash the system. */
 			case Expose:
-#if 0
-			for (container = list_container; container; container = container->next) {
-				if (container->window = event.xany.window)
-					for (layer = container->layer; layer; layer = layer->next) {
-						gc = XCreateGC(display, event.xany.window, 0, &gc_values);
-						XSetBackground(display, gc, white);
-						XSetForeground(display, gc, 0xff);
-						XCopyPlane(display, layer->pixmap, event.xany.window, gc, 0, 0, layer->w, layer->h, 0, 0, 1);
-						XSetForeground(display, gc, 0xff00);
-						/*XCopyPlane(display, layer->pixmap, event.xany.window, gc, 0, 0, layer->w, layer->h, 0, 0, 2);*/
-						XCopyArea(display, layer->pixmap, event.xany.window, gc, 0, 0, layer->w, layer->h, 0, 0);
-					}
-			}
-#endif
+				window_expose(&event);
 			break;
 		}
 	}
@@ -161,18 +185,20 @@ static void minimize_window(window w)
 {
 }
 
-
-static pixmap load_image(const char *filename)
+static pixmap load_image(const char *path)
 {
-	window w;
-	int width, height;
-	Pixmap bitmap;
-	int hotspot_x, hotspot_y;
-	int r;
-	Drawable root;
+	struct image image;
+	Pixmap pixmap;
+	XImage *ximage;
 
 	/* NOTE: XReadBitmapFile only works for XBM files. */
-	return bitmap;
+	load_bmp(&stdops, path, &image);
+	pixmap = XCreatePixmap(display, root, image.width, image.height, image.bpp);
+	gc = XCreateGC(display, pixmap, 0, NULL);
+	ximage = XCreateImage(display, CopyFromParent, image.bpp, ZPixmap, 0, image.pixels, image.width, image.height, 32, 0);
+	XPutImage(display, pixmap, gc, ximage, 0, 0, 0, 0, image.width, image.height);
+	XFreeGC(display, gc);
+	return pixmap;
 }
 
 static void unload_image(pixmap image)
@@ -185,16 +211,20 @@ static void begin_drawing(window w)
 	gc = XCreateGC(display, w, 0, NULL);
 	if (gc < 0)
 		fprintf(stderr, "ERROR: could not create GC.\n");
+	cur_win = w;
 }
 
 static void draw_image(pixmap pixmap, int dst_x, int dst_y, int w, int h, int src_x, int src_y)
 {
-	XCopyArea(display, pixmap, cur_win, gc, src_x, src_y, w, h, dst_x, dst_y);
+	/*XSetBackground(display, gc, 0xffffffff);
+	XSetForeground(display, gc, 0xffffffff);
+	XSetFillStyle(display, gc, FillSolid);*/
+	/*XFillRectangle(display, cur_win, gc, dst_x, dst_y, w, h);*/
+	XCopyArea(display, pixmap, cur_win, gc, 0, 0, w, h, dst_x, dst_y);
 }
 
 static void draw_image_double(pixmap pixmap, int dst_x, int dst_y, int w, int h, int src_x, int src_y)
 {
-	XFreeGC(display, gc);
 }
 
 static void draw_filled_rectangle(int x, int y, int w, int h, char *color)
@@ -203,6 +233,7 @@ static void draw_filled_rectangle(int x, int y, int w, int h, char *color)
 
 static void end_drawing()
 {
+	XFreeGC(display, gc);
 }
 
 

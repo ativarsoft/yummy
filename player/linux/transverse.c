@@ -1,5 +1,5 @@
 /*
- *  yummy/player/linux/discovery.c
+ *  yummy/player/linux/transverse.c
  *
  *  Copyright (C) 2013-2015  Mateus de Lima Oliveira
  */
@@ -7,15 +7,6 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <string.h>
-
-#define PREFIX_IN  0x1
-#define PREFIX_OUT 0x2
-#define PREFIX_ 0x3
-#define PREFIX_DSP 0x4
-#define PREFIX_VIS 0x5
-#define PREFIX_ENC 0x6
-
-#define SUFFIX
 
 void transverse_dir(char *path, void (*callback)(char *path, char *filename))
 {

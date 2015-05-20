@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct png_context_s {
+struct png_context {
 	void *data;
 	int len;
 	int pos;
@@ -19,7 +19,7 @@ struct png_context_s {
 
 static void read_callback(png_structp png, png_bytep data, png_size_t len)
 {
-	struct png_context_s *context;
+	struct png_context *context;
 	
 	context = png_get_io_ptr(png);
 	if (len > context->pos + context->len)
@@ -28,7 +28,7 @@ static void read_callback(png_structp png, png_bytep data, png_size_t len)
 	context->pos += len;
 }
 
-uint32_t * load_png(struct load_image_s *args)
+uint32_t * load_png(struct load_image *args)
 {
 	png_structp png;
 	png_infop info;
@@ -38,7 +38,7 @@ uint32_t * load_png(struct load_image_s *args)
 	int i;
 	png_uint_32 w,h;
 	int depth;
-	struct png_context_s context;
+	struct png_context context;
 	png_uint_32 stride;
 	
 	if(png_sig_cmp(args->data, 0, 8)) {
