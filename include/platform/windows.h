@@ -12,11 +12,11 @@
 #define ERRNO GetLastError()
 #define DLLEXPORT __declspec(dllexport)
 
-typedef HWND window;
-typedef HMODULE library;
-typedef HBITMAP pixmap;
-typedef HCURSOR cursor;
-typedef HMENU menu;
+typedef HWND window_t;
+typedef HMODULE library_t;
+typedef HBITMAP pixmap_t;
+typedef HCURSOR cursor_t;
+typedef HMENU menu_t;
 
 extern HINSTANCE instance;
 
