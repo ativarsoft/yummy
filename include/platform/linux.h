@@ -15,11 +15,11 @@
 #define GetLastError() 0 /* FIXME: remove. */
 #define DLLEXPORT /* All symbols are exported by default in Linux. */
 
-typedef Window window;
-typedef Pixmap pixmap;
-typedef void * cursor;
-typedef void * menu;
-typedef void * library;
+typedef Window window_t;
+typedef Pixmap pixmap_t;
+typedef void * cursor_t;
+typedef void * menu_t;
+typedef void * library_t;
 
 extern Display *display;
 extern int screen;
@@ -34,12 +34,12 @@ extern Atom wm_delete_window;
 /*extern Atom _net_wm_state;
 extern Atom _net_wm_state_hidden;*/
 
-static inline library load_library(const char *path)
+static inline library_t load_library(const char *path)
 {
 	return dlopen(path, RTLD_LAZY);
 }
 
-static inline void * get_symbol(library lib, const char *sym)
+static inline void * get_symbol(library_t lib, const char *sym)
 {
 	return dlsym(lib, sym);
 }

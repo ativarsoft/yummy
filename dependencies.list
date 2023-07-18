@@ -1,0 +1,6 @@
+libtoolize
+aclocal
+autotools
+libpng-dev
+libx11-dev
+

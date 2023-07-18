@@ -46,19 +46,19 @@ void quit(void)
 	XCloseDisplay(display);
 }
 
-static window create_window(int x, int y, int w, int h, char *title, const struct skin_callbacks *callbacks)
+static window_t create_window(int x, int y, int w, int h, char *title, const struct skin_callbacks *callbacks)
 {
-	window window;
+	window_t window;
 	Visual *visual;
 	XVisualInfo visual_info;
 	unsigned long attributes_mask;
 	XSetWindowAttributes attributes;
 	Atom skin_callbacks_atom;
 	const int bpp = 32;
-	
+
 	XMatchVisualInfo(display, screen, bpp, TrueColor, &visual_info);
 	visual = visual_info.visual;
-	
+
 	attributes_mask = CWBackPixel | CWColormap | CWBorderPixel;
 	attributes.colormap = XCreateColormap(display, root, visual, AllocNone);
 	attributes.background_pixel = 0xff000000;
@@ -77,11 +77,11 @@ static window create_window(int x, int y, int w, int h, char *title, const struc
 	/* We want to store a pointer. So pass a pointer to the poiter. */
 	XChangeProperty(display, window, skin_callbacks_atom, XA_STRING, 8, PropModeReplace, (const unsigned char *) &callbacks, sizeof(struct skin_callbacks *));
 	XSync(display, False);
-	
+
 	return window;
 }
 
-static void destroy_window(window w)
+static void destroy_window(window_t w)
 {
 	XDestroyWindow(display, w);
 }
@@ -145,34 +145,34 @@ static void event_handler(void)
 	}
 }
 
-static void show_window(window w)
+static void show_window(window_t w)
 {
 	XMapWindow(display, w);
 }
 
-static void hide_window(window w)
+static void hide_window(window_t w)
 {
 	XUnmapWindow(display, w);
 }
 
-static void move_window(window w, int x, int y)
+static void move_window(window_t w, int x, int y)
 {
 	XMoveWindow(display, w, x, y);
 }
 
-static void redraw_window(window w)
+static void redraw_window(window_t w)
 {
 }
 
-static void set_topmost(window window)
+static void set_topmost(window_t window)
 {
 }
 
-static void set_not_topmost(window window)
+static void set_not_topmost(window_t window)
 {
 }
 
-static void resize_window(window window, int w, int h)
+static void resize_window(window_t window, int w, int h)
 {
 	XResizeWindow(display, window, w, h);
 }
@@ -181,11 +181,11 @@ static void get_window_rect(int *rect)
 {
 }
 
-static void minimize_window(window w)
+static void minimize_window(window_t w)
 {
 }
 
-static pixmap load_image(const char *path)
+static pixmap_t load_image(const char *path)
 {
 	struct image image;
 	Pixmap pixmap;
@@ -201,12 +201,12 @@ static pixmap load_image(const char *path)
 	return pixmap;
 }
 
-static void unload_image(pixmap image)
+static void unload_image(pixmap_t image)
 {
 	XFreePixmap(display, image);
 }
 
-static void begin_drawing(window w)
+static void begin_drawing(window_t w)
 {
 	gc = XCreateGC(display, w, 0, NULL);
 	if (gc < 0)
@@ -214,7 +214,7 @@ static void begin_drawing(window w)
 	cur_win = w;
 }
 
-static void draw_image(pixmap pixmap, int dst_x, int dst_y, int w, int h, int src_x, int src_y)
+static void draw_image(pixmap_t pixmap, int dst_x, int dst_y, int w, int h, int src_x, int src_y)
 {
 	/*XSetBackground(display, gc, 0xffffffff);
 	XSetForeground(display, gc, 0xffffffff);
@@ -223,7 +223,7 @@ static void draw_image(pixmap pixmap, int dst_x, int dst_y, int w, int h, int sr
 	XCopyArea(display, pixmap, cur_win, gc, 0, 0, w, h, dst_x, dst_y);
 }
 
-static void draw_image_double(pixmap pixmap, int dst_x, int dst_y, int w, int h, int src_x, int src_y)
+static void draw_image_double(pixmap_t pixmap, int dst_x, int dst_y, int w, int h, int src_x, int src_y)
 {
 }
 
@@ -237,7 +237,7 @@ static void end_drawing()
 }
 
 
-static void capture_mouse(window w)
+static void capture_mouse(window_t w)
 {
 }
 
@@ -245,20 +245,20 @@ static void release_mouse(void)
 {
 }
 
-static cursor load_cursor()
+static cursor_t load_cursor()
 {
 }
 
-static void unload_cursor(cursor cursor)
+static void unload_cursor(cursor_t cursor)
 {
 }
 
-static void set_cursor(cursor cursor)
+static void set_cursor(cursor_t cursor)
 {
 }
 
 
-static bool check_glue(window a, window b, int x, int y)
+static bool check_glue(window_t a, window_t b, int x, int y)
 {
 }
 

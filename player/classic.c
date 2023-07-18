@@ -42,10 +42,10 @@ struct widget {
 };
 
 struct handlers {
-	void (*mouse_down)(const struct widget *widget, window w, int x, int y);
-	void (*mouse_up)(const struct widget *widget, window w, int x, int y);
-	void (*mouse_move)(const struct widget *widget, window w, int x, int y);
-	void (*draw)(const struct widget *widget, window w);
+	void (*mouse_down)(const struct widget *widget, window_t w, int x, int y);
+	void (*mouse_up)(const struct widget *widget, window_t w, int x, int y);
+	void (*mouse_move)(const struct widget *widget, window_t w, int x, int y);
+	void (*draw)(const struct widget *widget, window_t w);
 };
 
 /*struct classic_window {
@@ -87,7 +87,7 @@ struct clutterbar_data {
 	bool a, d;
 	int mouse_down;
 	void (*set_o)();
-	void (*set_a)(window, bool);
+	void (*set_a)(window_t, bool);
 	void (*set_i)();
 	void (*set_d)(bool);
 	void (*set_v)();
@@ -244,9 +244,9 @@ const static char *cursor_filenames[] = {
 	"WSWINBUT.CUR"
 };
 
-window w1, w2, w3;
-pixmap bmps[NUM_BMPS];
-cursor cursors[NUM_CURSORS];
+window_t w1, w2, w3;
+pixmap_t bmps[NUM_BMPS];
+cursor_t cursors[NUM_CURSORS];
 bool double_size = false;
 bool easymove = true;
 
@@ -590,8 +590,8 @@ const struct subbitmap *ascii_table[] = {
 
 static void draw_time(int minutes, int seconds, bool remaining_time)
 {
-	pixmap bmp;
-	
+	pixmap_t bmp;
+
 	bmp = bmps[BMP_NUMS_EX];
 	gui->draw_image(bmp, 48, 26, 9, 13, 9 * (minutes / 10), 0);
 	gui->draw_image(bmp, 60, 26, 9, 13, 9 * (minutes % 10), 0);
@@ -886,7 +886,7 @@ void set_o()
 	TRACE();
 }
 
-void set_a(window w, bool activated)
+void set_a(window_t w, bool activated)
 {
 	TRACE();
 	if (activated)
@@ -1327,7 +1327,7 @@ static struct grip_data data_pl_grip = {
 	.min_height = 116
 };
 
-static void capture_mouse(window w, const struct widget *widget)
+static void capture_mouse(window_t w, const struct widget *widget)
 {
 	gui->capture_mouse(w);
 	capture = widget;
@@ -1378,7 +1378,7 @@ static void draw_pixmap_loop_vertical(const struct subbitmap *subbmp, int dst_x,
 		draw_pixmap(subbmp, dst_x, dst_y + i, src_w, src_h);
 }
 
-static void background_mouse_down(const struct widget *widget, window w, int x, int y)
+static void background_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 	struct background_data *bg;
 
@@ -1391,7 +1391,7 @@ static void background_mouse_down(const struct widget *widget, window w, int x, 
 	}
 }
 
-static void background_mouse_up(const struct widget *widget, window w, int x, int y)
+static void background_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 	struct background_data *bg;
 
@@ -1402,7 +1402,7 @@ static void background_mouse_up(const struct widget *widget, window w, int x, in
 	}
 }
 
-static void background_mouse_move(const struct widget *widget, window w, int x, int y)
+static void background_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 	static int a, b;
 	/*printf("%s: %d %d\n", __FUNCTION__, x, y);*/
@@ -1412,7 +1412,7 @@ static void background_mouse_move(const struct widget *widget, window w, int x, 
 			a = x;
 			b = y;
 		}
-		
+
 		if (w == w1) {
 			gui->move_window(w2, x - last_x, y - last_y);
 			gui->move_window(w3, x - last_x, y - last_y);
@@ -1420,7 +1420,7 @@ static void background_mouse_move(const struct widget *widget, window w, int x, 
 	}
 }
 
-static void background_draw(const struct widget *widget, window w)
+static void background_draw(const struct widget *widget, window_t w)
 {
 	struct background_data *bg;
 	const int *rect;
@@ -1438,7 +1438,7 @@ static const struct handlers background_handlers = {
 	.draw = &background_draw
 };
 
-static void checkbox_mouse_down(const struct widget *widget, window w, int x, int y)
+static void checkbox_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 	struct checkbox_data *checkbox;
 
@@ -1448,7 +1448,7 @@ static void checkbox_mouse_down(const struct widget *widget, window w, int x, in
 	gui->redraw_window(w);
 }
 
-static void checkbox_mouse_up(const struct widget *widget, window w, int x, int y)
+static void checkbox_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 	struct checkbox_data *checkbox;
 	const int *rect;
@@ -1467,16 +1467,16 @@ static void checkbox_mouse_up(const struct widget *widget, window w, int x, int 
 	}
 }
 
-static void checkbox_mouse_move(const struct widget *widget, window w, int x, int y)
+static void checkbox_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 }
 
-static void checkbox_draw(const struct widget *widget, window w)
+static void checkbox_draw(const struct widget *widget, window_t w)
 {
 	struct checkbox_data *checkbox;
 	const struct subbitmap *subbmp;
 	const int *rect;
-	
+
 	TRACE();
 	rect = widget->rect;
 	checkbox = (struct checkbox_data *) widget->data;
@@ -1493,7 +1493,7 @@ static void checkbox_draw(const struct widget *widget, window w)
 		else
 			subbmp = checkbox->off_up;
 	}
-	
+
 	draw_pixmap_double(subbmp, rect[0], rect[1], rect[2], rect[3]);
 }
 
@@ -1504,7 +1504,7 @@ static const struct handlers checkbox_handlers = {
 	.draw = &checkbox_draw
 };
 
-static void button_mouse_down(const struct widget *widget, window w, int x, int y)
+static void button_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 	struct button_data *button;
 
@@ -1514,7 +1514,7 @@ static void button_mouse_down(const struct widget *widget, window w, int x, int 
 	gui->redraw_window(w);
 }
 
-static void button_mouse_up(const struct widget *widget, window w, int x, int y)
+static void button_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 	struct button_data *button;
 	const int *rect;
@@ -1531,12 +1531,12 @@ static void button_mouse_up(const struct widget *widget, window w, int x, int y)
 	}
 }
 
-static void button_mouse_move(const struct widget *widget, window w, int x, int y)
+static void button_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 	TRACE();
 }
 
-static void button_draw(const struct widget *widget, window w)
+static void button_draw(const struct widget *widget, window_t w)
 {
 	const struct subbitmap *subbmp;
 	struct button_data *button;
@@ -1559,7 +1559,7 @@ static const struct handlers button_handlers = {
 	.draw = &button_draw
 };
 
-static void slider_mouse_down(const struct widget *widget, window w, int x, int y)
+static void slider_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 	struct slider_data *slider;
 
@@ -1571,7 +1571,7 @@ static void slider_mouse_down(const struct widget *widget, window w, int x, int 
 	gui->redraw_window(w);
 }
 
-static void slider_mouse_up(const struct widget *widget, window w, int x, int y)
+static void slider_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 	struct slider_data *slider;
 
@@ -1581,11 +1581,11 @@ static void slider_mouse_up(const struct widget *widget, window w, int x, int y)
 	gui->redraw_window(w);
 }
 
-static void slider_mouse_move(const struct widget *widget, window w, int x, int y)
+static void slider_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 	struct slider_data *slider;
 	int diff;
-	
+
 	slider = (struct slider_data *) widget->data;
 	if (capture == widget) {
 		/* set value */
@@ -1613,7 +1613,7 @@ static void slider_mouse_move(const struct widget *widget, window w, int x, int 
 	}
 }
 
-static void slider_draw(const struct widget *widget, window w)
+static void slider_draw(const struct widget *widget, window_t w)
 {
 	struct slider_data *slider;
 	const struct subbitmap *bg;
@@ -1621,7 +1621,7 @@ static void slider_draw(const struct widget *widget, window w)
 	const int *rect;
 	int n;
 	int range;
-	
+
 	TRACE();
 	rect = widget->rect;
 	slider = (struct slider_data *) widget->data;
@@ -1660,7 +1660,7 @@ static const struct handlers slider_handlers = {
 	.draw = &slider_draw
 };
 
-static void clutterbar_mouse_down(const struct widget *widget, window w, int x, int y)
+static void clutterbar_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 	struct clutterbar_data *clutterbar;
 	int widget_y;
@@ -1683,7 +1683,7 @@ static void clutterbar_mouse_down(const struct widget *widget, window w, int x, 
 	gui->redraw_window(w);
 }
 
-static void clutterbar_mouse_up(const struct widget *widget, window w, int x, int y)
+static void clutterbar_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 	struct clutterbar_data *clutterbar;
 
@@ -1712,11 +1712,11 @@ static void clutterbar_mouse_up(const struct widget *widget, window w, int x, in
 	gui->redraw_window(w);
 }
 
-static void clutterbar_mouse_move(const struct widget *widget, window w, int x, int y)
+static void clutterbar_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 }
 
-static void clutterbar_draw(const struct widget *widget, window w)
+static void clutterbar_draw(const struct widget *widget, window_t w)
 {
 	const struct subbitmap *bg;
 	const int *rect;
@@ -1793,7 +1793,7 @@ static const struct handlers clutterbar_handlers = {
 	.draw = &clutterbar_draw
 };
 
-static void song_title_mouse_down(const struct widget *widget, window w, int x, int y)
+static void song_title_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 	struct song_title_data *song_title;
 
@@ -1803,7 +1803,7 @@ static void song_title_mouse_down(const struct widget *widget, window w, int x, 
 	last_x = x;
 }
 
-static void song_title_mouse_up(const struct widget *widget, window w, int x, int y)
+static void song_title_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 	struct song_title_data *song_title;
 
@@ -1811,7 +1811,7 @@ static void song_title_mouse_up(const struct widget *widget, window w, int x, in
 	release_mouse();
 }
 
-static void song_title_mouse_move(const struct widget *widget, window w, int x, int y)
+static void song_title_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 	struct song_title_data *song_title;
 
@@ -1826,24 +1826,24 @@ static void song_title_mouse_move(const struct widget *widget, window w, int x, 
 	}
 }
 
-static void song_title_draw(const struct widget *widget, window w)
+static void song_title_draw(const struct widget *widget, window_t w)
 {
 	/*static void draw_string(int x, int y, int w, int offset)*/ /*FIXME: remove.*/
 	struct song_title_data *song_title;
-	
+
 	int x, y, width;
-	
+
 	int a;
 	int c;
 	int i;
 	int len;
-	
+
 	song_title = (struct song_title_data *) widget->data;
-	
+
 	x = widget->rect[0];
 	y = widget->rect[1];
 	width = widget->rect[2];
-	
+
 	len = strlen(song_title->string);
 	a = song_title->offset % 5;
 	/* TODO: draw the beginning and ending character pieces. */
@@ -1869,7 +1869,7 @@ static const struct handlers song_title_handlers = {
 	.draw = &song_title_draw
 };
 
-static void resizeable_background_mouse_down(const struct widget *widget, window w, int x, int y)
+static void resizeable_background_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 	TRACE();
 	if (y < 16 || easymove) {
@@ -1879,21 +1879,21 @@ static void resizeable_background_mouse_down(const struct widget *widget, window
 	}
 }
 
-static void resizeable_background_mouse_up(const struct widget *widget, window w, int x, int y)
+static void resizeable_background_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 	TRACE();
 	if (y < 16 || easymove)
 		release_mouse();
 }
 
-static void resizeable_background_mouse_move(const struct widget *widget, window w, int x, int y)
+static void resizeable_background_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 	if (capture == widget) {
 		gui->move_window(w, x-last_x, y-last_y);
 	}
 }
 
-static void resizeable_background_draw(const struct widget *widget, window w)
+static void resizeable_background_draw(const struct widget *widget, window_t w)
 {
 	struct resizeable_background_data *bg;
 	const int *rect;
@@ -1918,24 +1918,24 @@ static const struct handlers resizeable_background_handlers = {
 	.draw = &resizeable_background_draw
 };
 
-static void scroll_mouse_down(const struct widget *widget, window w, int x, int y)
+static void scroll_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 }
 
-static void scroll_mouse_up(const struct widget *widget, window w, int x, int y)
+static void scroll_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 }
 
-static void scroll_mouse_move(const struct widget *widget, window w, int x, int y)
+static void scroll_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 }
 
-static void scroll_draw(const struct widget *widget, window w)
+static void scroll_draw(const struct widget *widget, window_t w)
 {
 	struct scroll_data *scroll;
 	const int *rect;
 	const struct subbitmap *bar;
-	
+
 	scroll = (struct scroll_data *) widget->data;
 	rect = widget->rect;
 	if (scroll->value >= 0 || 1) {
@@ -1956,19 +1956,19 @@ static const struct handlers scroll_handlers = {
 	.draw = &scroll_draw
 };
 
-static void pledit_mouse_down(const struct widget *widget, window w, int x, int y)
+static void pledit_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 }
 
-static void pledit_mouse_up(const struct widget *widget, window w, int x, int y)
+static void pledit_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 }
 
-static void pledit_mouse_move(const struct widget *widget, window w, int x, int y)
+static void pledit_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 }
 
-static void pledit_draw(const struct widget *widget, window w)
+static void pledit_draw(const struct widget *widget, window_t w)
 {
 	struct lpedit_data *pledit;
 	const int *rect;
@@ -2018,7 +2018,7 @@ static const struct handlers pledit_handlers = {
 	.draw = &pledit_draw
 };
 
-static void menu_mouse_down(const struct widget *widget, window w, int x, int y)
+static void menu_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 	if (x > widget->rect[0] + 3) {
 		capture_mouse(w, widget);
@@ -2026,13 +2026,13 @@ static void menu_mouse_down(const struct widget *widget, window w, int x, int y)
 	}
 }
 
-static void menu_mouse_up(const struct widget *widget, window w, int x, int y)
+static void menu_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 	release_mouse();
 	gui->redraw_window(w);
 }
 
-static void menu_mouse_move(const struct widget *widget, window w, int x, int y)
+static void menu_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 	int id;
 	struct menu_data *menu;
@@ -2051,7 +2051,7 @@ static void menu_mouse_move(const struct widget *widget, window w, int x, int y)
 	}
 }
 
-static void menu_draw(const struct widget *widget, window w)
+static void menu_draw(const struct widget *widget, window_t w)
 {
 	char color[3] = {255, 120, 120};
 	const int *rect;
@@ -2085,7 +2085,7 @@ static const struct handlers menu_handlers = {
 	.draw = &menu_draw
 };
 
-static void grip_mouse_down(const struct widget *widget, window w, int x, int y)
+static void grip_mouse_down(const struct widget *widget, window_t w, int x, int y)
 {
 	struct grip_data *grip;
 
@@ -2095,7 +2095,7 @@ static void grip_mouse_down(const struct widget *widget, window w, int x, int y)
 	last_y = y;
 }
 
-static void grip_mouse_up(const struct widget *widget, window w, int x, int y)
+static void grip_mouse_up(const struct widget *widget, window_t w, int x, int y)
 {
 	struct grip_data *grip;
 
@@ -2103,7 +2103,7 @@ static void grip_mouse_up(const struct widget *widget, window w, int x, int y)
 	release_mouse();
 }
 
-static void grip_mouse_move(const struct widget *widget, window w, int x, int y)
+static void grip_mouse_move(const struct widget *widget, window_t w, int x, int y)
 {
 	struct grip_data *grip;
 	int diff_x, diff_y;
@@ -2132,7 +2132,7 @@ static void grip_mouse_move(const struct widget *widget, window w, int x, int y)
 	}
 }
 
-static void grip_draw(const struct widget *widget, window w)
+static void grip_draw(const struct widget *widget, window_t w)
 {
 	char color[3] = {0, 255, 0};
 	const int *rect;
@@ -2254,7 +2254,7 @@ static const struct widget * collision_detection(int x, int y, const struct widg
 	return widget;
 }
 
-static void template_mouse_down(window w, const struct widget *template, int num_controls, int x, int y)
+static void template_mouse_down(window_t w, const struct widget *template, int num_controls, int x, int y)
 {
 	const struct widget *widget;
 
@@ -2265,7 +2265,7 @@ static void template_mouse_down(window w, const struct widget *template, int num
 		widget->control->mouse_down(widget, w, x, y);
 }
 
-static void template_mouse_up(window w, const struct widget *template, int num_controls, int x, int y)
+static void template_mouse_up(window_t w, const struct widget *template, int num_controls, int x, int y)
 {
 	const struct widget *widget;
 
@@ -2279,7 +2279,7 @@ static void template_mouse_up(window w, const struct widget *template, int num_c
 		widget->control->mouse_up(widget, w, x, y);
 }
 
-static void template_mouse_move(window w, const struct widget *template, int num_controls, int x, int y)
+static void template_mouse_move(window_t w, const struct widget *template, int num_controls, int x, int y)
 {
 	const struct widget *widget;
 
@@ -2294,7 +2294,7 @@ static void template_mouse_move(window w, const struct widget *template, int num
 	}
 }
 
-static void template_draw(window w, const struct widget *template, int num_controls)
+static void template_draw(window_t w, const struct widget *template, int num_controls)
 {
 	int i;
 	const struct widget *widget;
@@ -2398,7 +2398,7 @@ static void equalizer_focus(bool focus)
 	gui->redraw_window(w2);
 }
 
-static void resizeable_window_draw(window w, const struct widget *template, int num_controls)
+static void resizeable_window_draw(window_t w, const struct widget *template, int num_controls)
 {
 	/*static void template_draw(window w, const struct widget *template, int num_controls)*/
 	int i;

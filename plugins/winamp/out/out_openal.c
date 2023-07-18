@@ -22,7 +22,7 @@ void about(window_t parent)
 	info(parent, "Copyright 2013 Mateus de Lima Oliveira\n\n"
 		"OpenAL output plugin. OpenAL supports 3D audio output.");
 }
-	
+
 void init()
 {
 	struct {
@@ -35,7 +35,7 @@ void init()
 		{"AL_FORMAT_71CHN16", "7.1 16 bits"}
 	};
 	int f;
-	
+
 	device = alcOpenDevice(0);
 	if (!device)
 		return 0;
@@ -52,7 +52,7 @@ void quit()
 	alcDestroyContext(context);
 	alcDestroyDevice(device);
 }
-	
+
 int open(int rate, int channels, int bits, int a, int b)
 {
 	alBufferData();
@@ -62,7 +62,7 @@ int open(int rate, int channels, int bits, int a, int b)
 void close()
 {
 }
-	
+
 int write(char *buffer, int length)
 {
 	return 0;
@@ -82,7 +82,7 @@ int pause(int pause)
 {
 	return 0xf; /* TODO: return time. */
 }
-	
+
 void set_volume(int volume)
 {
 }
@@ -94,7 +94,7 @@ void set_panning(int pan)
 void flush(int time)
 {
 }
-	
+
 int get_output_time()
 {
 	return 0xf; /* TODO: ? */

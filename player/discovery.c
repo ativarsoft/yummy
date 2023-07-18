@@ -40,7 +40,7 @@ static void list_remove_all(struct plugin_list_head *list)
 {
 	struct plugin_list_entry *entry;
 	struct plugin_list_entry *prev;
-	
+
 	entry = list->head;
 	while (entry != NULL) {
 		prev = entry->previous;
@@ -51,8 +51,8 @@ static void list_remove_all(struct plugin_list_head *list)
 
 void load_plugin(char *path, char *filename)
 {
-	void * (*loader)(library lib);
-	library lib;
+	void * (*loader)(library_t lib);
+	library_t lib;
 	struct in_plugin *in;
 	struct out_plugin *out;
 	struct gen_plugin *gen;

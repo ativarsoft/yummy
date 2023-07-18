@@ -8,7 +8,7 @@ extern struct skin classic;
 extern struct skin modern;
 
 /* This is used by classic and modern skins. */
-window main_window;
+window_t main_window;
 
 struct gui *gui;
 struct skin *skin;
@@ -22,7 +22,7 @@ void player_init(void)
 #endif
 	skin = &classic;
 	/*skin = &modern;*/
-	
+
 	gui->init();
 	skin->init();
 	/* these depend on the main window */
@@ -35,7 +35,7 @@ void player_init(void)
 	/*pe_load("plugins/in_libav.dll");*/
 	/*modern_skin("skins/Winamp Modern");*/
 	/*discovery_init();*/
-	
+
 	/* TODO: destroy menus. */
 	gui->quit();
 	/*Sleep(10000);*/

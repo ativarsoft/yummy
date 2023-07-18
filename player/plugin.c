@@ -23,7 +23,7 @@ struct in_plugin * load_in_plugin(library_t lib)
 {
 	struct in_plugin *in;
 	struct in_plugin * (*get_in_module)();
-	
+
 	get_in_module = (struct in_plugin * (*)()) get_symbol(lib, "winampGetInModule2");
 	printf("last error get_symbol %x\n", GetLastError());
 	if(get_in_module == NULL)
@@ -47,7 +47,7 @@ struct in_plugin * load_in_plugin(library_t lib)
 	in->init();
 	DEBUG_PUTS(in->description);
 	cur_in = in; /* TODO: remove. */
-	
+
 	return in;
 }
 
@@ -55,7 +55,7 @@ struct out_plugin * load_out_plugin(library_t lib)
 {
 	struct out_plugin *out;
 	struct out_plugin * (*get_out_module)();
-	
+
 	get_out_module = (struct out_plugin * (*)()) get_symbol(lib, "winampGetOutModule");
 	if(get_out_module == NULL)
 		return NULL;
@@ -70,7 +70,7 @@ struct out_plugin * load_out_plugin(library_t lib)
 	/*out->configure(0);*/
 	/*out->quit();*/
 	cur_out = out; /* TODO: remove. */
-	
+
 	return out;
 }
 
@@ -78,7 +78,7 @@ struct gen_plugin * load_gen_plugin(library_t lib)
 {
 	struct gen_plugin *gen;
 	struct gen_plugin * (*get_gen_module)();
-	
+
 	get_gen_module = (struct gen_plugin * (*)()) get_symbol(lib, "winampGetGeneralPurposePlugin");
 	if(get_gen_module == NULL)
 		return NULL;
@@ -90,7 +90,7 @@ struct gen_plugin * load_gen_plugin(library_t lib)
 	puts(gen->description);
 #endif
 	gen->configure();
-	
+
 	return gen;
 }
 
@@ -99,7 +99,7 @@ struct dsp_plugin_module * load_dsp_plugin(library_t lib)
 	struct dsp_plugin_header *dsp_header;
 	struct dsp_plugin_module *dsp_module;
 	struct dsp_plugin_header * (*get_dsp_header)();
-	
+
 	get_dsp_header = (struct dsp_plugin_header * (*)()) get_symbol(lib, "winampDSPGetHeader2");
 	if(get_dsp_header == NULL)
 		return NULL;
@@ -110,7 +110,7 @@ struct dsp_plugin_module * load_dsp_plugin(library_t lib)
 	dsp_module->dll_instance = lib;
 	dsp_module->init(dsp_module);
 	DEBUG_PUTS(dsp_module->description);
-	
+
 	return dsp_module;
 }
 
@@ -119,7 +119,7 @@ struct vis_plugin_module * load_vis_plugin(library_t lib)
 	struct vis_plugin_header *vis_header;
 	struct vis_plugin_module *vis_module;
 	struct vis_plugin_header * (*get_vis_header)();
-	
+
 	get_vis_header = (struct vis_plugin_header * (*)()) get_symbol(lib, "winampVisGetHeader");
 	if(get_vis_header == NULL)
 		return NULL;
@@ -133,6 +133,6 @@ struct vis_plugin_module * load_vis_plugin(library_t lib)
 	DEBUG_PRINTF("latency: %d\n", vis_module->latency);
 	DEBUG_PRINTF("delay: %d\n", vis_module->delay);
 	cur_vis = vis_module;
-	
+
 	return vis_module;
 }

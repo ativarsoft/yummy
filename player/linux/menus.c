@@ -7,14 +7,14 @@
 #include "menus.h"
 #include "gui.h"
 
-menu menu_root;
+menu_t menu_root;
 
-menu menu_main;
-menu menu_presets;
-menu menu_playlist;
-menu menu_system;
+menu_t menu_main;
+menu_t menu_presets;
+menu_t menu_playlist;
+menu_t menu_system;
 
-void menus_show(menu m, int x, int y)
+void menus_show(menu_t m, int x, int y)
 {
 }
 

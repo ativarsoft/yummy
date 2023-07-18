@@ -11,3 +11,9 @@ configure
 configure~
 m4/
 *.d
+/yummy
+*.o
+*.so
+*.exe
+*.dll
+

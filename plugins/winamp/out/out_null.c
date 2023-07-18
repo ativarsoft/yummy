@@ -8,17 +8,17 @@
 #include <module.h>
 #include <msgbox.h>
 
-void configure(window parent)
+void configure(window_t parent)
 {
 	info(parent, "No configuration.");
 }
 
-void about(window parent)
+void about(window_t parent)
 {
 	info(parent, "Copyright 2013 Mateus de Lima Oliveira\n\n"
 		"Null plugin. This is a test plugin that outputs no sound.");
 }
-	
+
 void init()
 {
 }
@@ -26,7 +26,7 @@ void init()
 void quit()
 {
 }
-	
+
 int open(int rate, int channels, int bits, int a, int b)
 {
 	return 1;
@@ -35,7 +35,7 @@ int open(int rate, int channels, int bits, int a, int b)
 void close()
 {
 }
-	
+
 int write(char *buffer, int length)
 {
 	return 0;
