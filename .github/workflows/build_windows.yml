@@ -7,6 +7,13 @@ jobs:
     defaults:
       run:
         shell: msys2 {0}
+    strategy:
+      matrix:
+        include:
+          # Builds for multiple runners provided by GitHub can be added here.
+          - os: windows-latest
+            artifact_name: yummy-latest.zip
+            asset_name: yummy-windows-x86
     steps:
       - uses: actions/checkout@v3
       - uses: msys2/setup-msys2@v2
@@ -19,4 +26,19 @@ jobs:
           echo 'Running in MSYS2!'
           ./build.sh
           make test
+          ./create_release.sh
+      - name: Write Release.txt
+        run: echo ${{ github.sha }} > Release.txt
+      - name: Test
+        run: cat Release.txt
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            Release.txt
+            ${{ matrix.artifact_name }}
+          asset_name: ${{ matrix.asset_name }}
+          tag: ${{ github.ref }}
+          overwrite: true
 
