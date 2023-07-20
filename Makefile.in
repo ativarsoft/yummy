@@ -68,4 +68,6 @@ clean:
 valgrind:
 	valgrind $(top_builddir)/@PACKAGE_NAME@$(EXEEXT)
 
-.PHONY: clean init
+test:
+
+.PHONY: clean init test
