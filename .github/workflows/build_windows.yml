@@ -13,7 +13,7 @@ jobs:
         with:
           msystem: UCRT64
           update: true
-          install: git mingw-w64-i686-gcc libtool autotools mingw-w64-i686-libpng mingw-w64-i686-ffmpeg
+          install: git mingw-w64-i686-gcc libtool mingw-w64-i686-autotools mingw-w64-i686-libpng mingw-w64-i686-ffmpeg
       - name: CI-Build
         run: |
           echo 'Running in MSYS2!'
