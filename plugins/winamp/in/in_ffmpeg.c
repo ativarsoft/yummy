@@ -180,8 +180,13 @@ void playing_thread(void *a)
 			/*if (avcodec_decode_audio4(codec_context, frame, &got_frame, &packet) < 1)
 				break;*/
 
+#ifdef FF_API_OLD_CHANNEL_LAYOUT
 			in.sa_add_pcm_data(frame->data[0], codec_context->ch_layout.nb_channels, bits, 0);
 			in.vsa_add_pcm_data(frame->data[0], codec_context->ch_layout.nb_channels, bits, 0);
+#else
+			in.sa_add_pcm_data(frame->data[0], codec_context->channel_layout, bits, 0);
+			in.vsa_add_pcm_data(frame->data[0], codec_context->channel_layout, bits, 0);
+#endif
 
 			/* Obsoleted ffmpeg fields */
 			/*in.sa_add_pcm_data(frame->data[0], codec_context->channels, bits, 0);
