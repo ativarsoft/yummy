@@ -20,6 +20,11 @@ typedef HMENU menu_t;
 
 extern HINSTANCE instance;
 
+static inline library_t load_library(const char *path)
+{
+        return LoadLibraryEx(path, NULL, 0);
+}
+
 static inline void * get_symbol(library_t lib, const char *sym)
 {
 	return GetProcAddress(lib, sym);
