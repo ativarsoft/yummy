@@ -14,7 +14,7 @@ void open_file_dialog(void)
 #if 0 /* Requires Vista */
 	IFileOpenDialog *f;
 	HRESULT r;
-	
+
 	r = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE);
 	if (!SUCCEEDED(r))
 		return;

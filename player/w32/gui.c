@@ -109,7 +109,7 @@ static void init(void)
 #if 0
 	INITCOMMONCONTROLSEX icc;
 #endif
-	
+
 #if 1
 	InitCommonControls();
 #else /* Requires Vista */
@@ -119,9 +119,9 @@ static void init(void)
 	icc.dwICC = ICC_TREEVIEW_CLASSES;
 	InitCommonControlsEx(&icc);
 #endif
-	
+
 	instance = GetModuleHandle(0);
-	
+
 	/* Register classic window class */
 	memset(&class, 0, sizeof(class));
 	class.hbrBackground = (HBRUSH) (COLOR_BTNFACE+1); /* NOTE: set to NULL on release. */
@@ -130,7 +130,7 @@ static void init(void)
 	class.hInstance = instance;
 	class.hIcon = LoadIcon(instance, MAKEINTRESOURCE(1));
 	class.hCursor = LoadCursor(NULL, IDC_ARROW);
-	
+
 	if (!RegisterClass(&class))
 		error(1, GetLastError(), "Could not initialize GUI.");
 
@@ -152,7 +152,7 @@ static window_t create_window(int x, int y, int w, int h, char *title, const str
 
 	hwnd = CreateWindowEx(0 /*WS_EX_TOOLWINDOW*/, class_name, title, WS_MINIMIZEBOX | WS_POPUP, x, y, w, h, main_window /*0*/, 0, instance, NULL);
 	SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR) handler);
-	
+
 	return hwnd;
 }
 
@@ -334,7 +334,7 @@ static bool check_glue(window_t a, window_t b, int x, int y)
 	GetWindowRect(b, &rect_b);
 	w = rect_a.right - rect_a.left;
 	h = rect_a.bottom - rect_a.top;
-	
+
 	printf("x: %d\ty: %d\n", x, y);
 
 	/* right */
@@ -356,7 +356,7 @@ static bool check_glue(window_t a, window_t b, int x, int y)
 		SetWindowPos(a, NULL, new_x, new_y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		r = true;
 	}
-	
+
 	/* bottom */
 	diff = rect_b.bottom - rect_a.top - y;
 	printf("x %d\tdiff %d\n", x, diff);
@@ -415,7 +415,7 @@ struct gui gui_w32 = {
 	.set_cursor = &set_cursor,
 
 	.check_glue = &check_glue,
-	
+
 	.open_file_dialog = &open_file_dialog,
 	.open_dir_dialog = &open_dir_dialog
 };
