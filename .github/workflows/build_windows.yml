@@ -25,6 +25,7 @@ jobs:
       - name: Test
         run: cat Release.txt
       - name: Release
+        continue-on-error: true
         uses: softprops/action-gh-release@v1
         with:
           files: |
