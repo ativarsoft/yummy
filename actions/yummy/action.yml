@@ -1,0 +1,20 @@
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v3
+    - name: Enable 32-bit packages
+      run: sudo ./enable_32bit.sh
+      shell: bash
+    - name: Update repository
+      run: sudo apt-get update
+      shell: bash
+    - name: Install dependencies
+      run: sudo make dependencies
+      shell: bash
+    - name: Build
+      run: make --jobs=1
+      shell: bash
+    - name: Test
+      run: make test
+      shell: bash
+
