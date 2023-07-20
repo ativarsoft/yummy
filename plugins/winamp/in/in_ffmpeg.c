@@ -231,6 +231,8 @@ int play(const char *path)
 
 	/* codec stuff */
 
+	codec_context = avcodec_alloc_context3(codec);
+
 	//codec_context = format_context->streams[audio_stream_index]->codec;
 	if (avcodec_parameters_to_context(codec_context, format_context->streams[audio_stream_index]->codecpar) < 0)
 		return 6;
