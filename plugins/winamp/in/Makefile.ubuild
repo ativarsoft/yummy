@@ -2,4 +2,4 @@ obj-$(CONFIG_IN_LIBAV) += in_libav.o
 in_libav_deps := $(LIBAVFORMAT_LIBS)
 
 obj-$(CONFIG_IN_FFMPEG) += in_ffmpeg.o
-in_libav_deps := $(LIBAVFORMAT_LIBS)
+in_libav_deps := -lavformat -lavcodec
