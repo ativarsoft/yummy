@@ -1,6 +1,5 @@
-libtoolize
-aclocal
-autotools
+libtool
+autotools-dev
 libpng-dev
 libx11-dev
 libavcodec-dev
