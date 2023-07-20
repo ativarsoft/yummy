@@ -3,4 +3,6 @@ aclocal
 autotools
 libpng-dev
 libx11-dev
+libavcodec-dev
+libavformat-dev
 
