@@ -9,10 +9,10 @@ runs:
       run: sudo apt-get update
       shell: bash
     - name: Install dependencies
-      run: sudo make dependencies
+      run: sudo ./install_dependencies.sh
       shell: bash
     - name: Build
-      run: make --jobs=1
+      run: ./build.sh
       shell: bash
     - name: Test
       run: make test
