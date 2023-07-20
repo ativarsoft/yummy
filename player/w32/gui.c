@@ -35,7 +35,6 @@ const LOGFONT logfont = {
 HINSTANCE instance;
 static const char modern_window_class_name[] = "modern_window";
 static const char class_name[] = "classic_window";
-window_t main_window; /* TODO: move to main.c */
 static HDC mem_dc, bmp_dc;
 static HBITMAP mem_bmp;
 static PAINTSTRUCT p;
