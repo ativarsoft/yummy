@@ -27,11 +27,10 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
           files: |
             Release.txt
             yummy-latest.zip
-          asset_name: yummy-windows-x86
-          tag: ${{ github.ref }}
-          overwrite: true
+          name: yummy-windows-x86
+          tag_name: ${{ github.ref }}
+          prerelease: true
 
