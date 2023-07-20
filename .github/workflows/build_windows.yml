@@ -2,7 +2,7 @@ name: MSYS2
 on: [push, pull_request]
 
 jobs:
-  msys2-ucrt64:
+  msys2-mingw32:
     runs-on: windows-latest
     defaults:
       run:
@@ -13,7 +13,7 @@ jobs:
         with:
           msystem: MINGW32
           update: true
-          install: git mingw-w64-i686-gcc libtool mingw-w64-i686-autotools mingw-w64-i686-libpng mingw-w64-i686-ffmpeg
+          install: git zip mingw-w64-i686-gcc libtool mingw-w64-i686-autotools mingw-w64-i686-libpng mingw-w64-i686-ffmpeg
       - name: CI-Build
         run: |
           echo 'Running in MSYS2!'
