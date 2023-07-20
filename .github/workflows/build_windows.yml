@@ -13,7 +13,7 @@ jobs:
         with:
           msystem: UCRT64
           update: true
-          install: git mingw-w64-ucrt-i686-gcc
+          install: git mingw-w64-i686-gcc
       - name: CI-Build
         run: |
           echo 'Running in MSYS2!'
